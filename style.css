@@ -1,0 +1,147 @@
+:root {
+    --bg-color: #0B0E14;
+    --card-bg: rgba(20, 25, 35, 0.7);
+    --primary-color: #39FF14;
+    --primary-dark: #2BBF0F;
+    --text-main: #FFFFFF;
+    --text-muted: #A0AABF;
+    --danger: #FF3B30;
+    --nav-bg: rgba(11, 14, 20, 0.9);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    height: 100vh;
+}
+
+/* Utilitários */
+.hidden { display: none !important; }
+.mt-10 { margin-top: 10px; }
+.mt-20 { margin-top: 20px; }
+.mb-10 { margin-bottom: 10px; }
+.center-text { text-align: center; }
+.small-text { font-size: 0.8rem; color: var(--text-muted); }
+
+/* Glassmorphism Cards */
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Telas e Splash */
+.screen {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.splash {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: var(--bg-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+.splash-icon { font-size: 4rem; color: var(--primary-color); margin-bottom: 20px; text-shadow: 0 0 20px var(--primary-color); }
+.splash h1 span { color: var(--primary-color); }
+
+/* Onboarding */
+#onboarding { justify-content: center; padding: 20px; }
+.onboarding-card input, .onboarding-card select {
+    width: 100%; padding: 15px; margin: 10px 0;
+    border-radius: 10px; border: none;
+    background: rgba(255,255,255,0.1); color: white;
+}
+.time-group { display: flex; justify-content: space-between; align-items: center; margin: 10px 0;}
+.time-group input { width: 50%; }
+
+/* Botões */
+button {
+    width: 100%; padding: 15px; border-radius: 12px;
+    font-weight: bold; font-size: 1.1rem; border: none;
+    cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+}
+button:active { transform: scale(0.95); }
+.btn-primary { background: var(--primary-color); color: #000; box-shadow: 0 4px 15px rgba(57, 255, 20, 0.3); }
+.btn-danger { background: var(--danger); color: white; }
+.btn-outline { background: transparent; border: 1px solid var(--primary-color); color: var(--primary-color); }
+
+/* Header Principal */
+header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 20px; padding-top: 40px;
+}
+.user-info { display: flex; align-items: center; gap: 15px; }
+.avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--primary-color); }
+.status-text { color: var(--text-muted); font-size: 0.85rem; }
+.score-badge {
+    background: linear-gradient(45deg, #FFD700, #FFA500);
+    width: 55px; height: 65px; border-radius: 10px 10px 30px 30px;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    color: black; font-weight: 900; box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+}
+.score-badge span { font-size: 1.5rem; }
+
+/* Main Content */
+main { flex: 1; padding: 0 20px; overflow-y: auto; padding-bottom: 100px; }
+.tab-content { display: none; animation: fadeIn 0.3s ease; }
+.tab-content.active { display: block; }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+/* AI Alert & Stats */
+.ai-alert { display: flex; gap: 15px; align-items: center; border-left: 4px solid var(--primary-color); }
+.ai-alert i { color: var(--primary-color); font-size: 1.5rem; }
+
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.stat-box { display: flex; flex-direction: column; gap: 10px; }
+.stat-box i { color: var(--primary-color); }
+.progress-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; }
+.progress-bar .fill { height: 100%; background: var(--primary-color); }
+.progress-bar .fill.danger { background: var(--danger); }
+
+/* Treino Info */
+.training-item { display: flex; align-items: center; gap: 15px; margin-top: 15px; }
+.t-icon { background: rgba(57,255,20,0.2); padding: 15px; border-radius: 15px; color: var(--primary-color); }
+.t-time { margin-left: auto; font-size: 1.2rem; font-weight: bold; }
+
+/* Checkboxes */
+.check-item { display: flex; align-items: center; gap: 10px; margin: 15px 0; font-size: 1.1rem; }
+.check-item input[type="checkbox"] { width: 20px; height: 20px; accent-color: var(--primary-color); }
+
+/* Bottom Nav */
+.bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    height: 70px; background: var(--nav-bg); backdrop-filter: blur(15px);
+    display: flex; justify-content: space-around; align-items: center;
+    border-top: 1px solid rgba(255,255,255,0.05); z-index: 100;
+}
+.nav-item {
+    color: var(--text-muted); text-decoration: none;
+    display: flex; flex-direction: column; align-items: center; gap: 5px;
+    font-size: 0.75rem; transition: color 0.3s; width: 60px;
+}
+.nav-item i { font-size: 1.3rem; }
+.nav-item.active { color: var(--primary-color); }
+.nav-item.active i { text-shadow: 0 0 10px var(--primary-color); }
