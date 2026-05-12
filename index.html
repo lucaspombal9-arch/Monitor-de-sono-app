@@ -2,21 +2,180 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Sleep Football Pro</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="sleep-football-pro-192x192.png">
+    <meta name="theme-color" content="#39FF14">
+    <!-- FontAwesome para Ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Estilos -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="splash-screen" class="splash"><h1>Sleep Football <span>Pro</span></h1></div>
-    <div id="onboarding" class="screen hidden"></div>
-    <div id="main-app" class="screen hidden">
-        <!-- O conteúdo das suas abas vai aqui, como no original -->
-        <button id="btn-notify">Ativar Notificações</button>
+
+    <!-- SPLASH SCREEN -->
+    <div id="splash-screen" class="splash">
+        <i class="fa-solid fa-bed-pulse splash-icon"></i>
+        <h1>Sleep Football <span>Pro</span></h1>
     </div>
+
+    <!-- ONBOARDING (Cadastro Inteligente) -->
+    <div id="onboarding" class="screen hidden">
+        <div class="glass-card onboarding-card">
+            <h2>Bem-vindo Craque! ⚽</h2>
+            <p>Vamos configurar sua rotina de elite.</p>
+            <form id="onboarding-form">
+                <input type="text" id="ob-nome" placeholder="Nome do Atleta" required>
+                <input type="number" id="ob-idade" placeholder="Idade" required>
+                <select id="ob-posicao" required>
+                    <option value="" disabled selected>Posição em Campo</option>
+                    <option value="Goleiro">Goleiro</option>
+                    <option value="Defensor">Defensor</option>
+                    <option value="Meio-Campo">Meio-Campo</option>
+                    <option value="Atacante">Atacante</option>
+                </select>
+                <div class="time-group">
+                    <label>Hora de Dormir:</label>
+                    <input type="time" id="ob-hora-dormir" required>
+                </div>
+                <div class="time-group">
+                    <label>Hora do Treino:</label>
+                    <input type="time" id="ob-hora-treino" required>
+                </div>
+                <button type="submit" class="btn-primary">Criar Rotina Profissional</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- APP PRINCIPAL -->
+    <div id="main-app" class="screen hidden">
+        
+        <!-- HEADER -->
+        <header>
+            <div class="user-info">
+                <img src="https://ui-avatars.com/api/?name=Atleta&background=39FF14&color=000" alt="Avatar" id="user-avatar" class="avatar">
+                <div>
+                    <h3 id="user-greeting">Olá, Craque</h3>
+                    <p class="status-text">Pronto para o próximo nível</p>
+                </div>
+            </div>
+            <div class="score-badge">
+                <span id="fifa-score">92</span>
+                <small>PRO</small>
+            </div>
+        </header>
+
+        <!-- CONTEÚDO DAS ABAS -->
+        <main id="content-area">
+            
+            <!-- 1. INÍCIO -->
+            <section id="tab-inicio" class="tab-content active">
+                <div class="glass-card ai-alert">
+                    <i class="fa-solid fa-robot"></i>
+                    <p id="ai-recommendation">Treino intenso hoje. Recomendamos hidratação e dormir 30 min mais cedo.</p>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="glass-card stat-box">
+                        <i class="fa-solid fa-moon"></i>
+                        <h4>Último Sono</h4>
+                        <h2 id="last-sleep-hours">0h 0m</h2>
+                        <div class="progress-bar"><div class="fill" style="width: 85%;"></div></div>
+                    </div>
+                    <div class="glass-card stat-box">
+                        <i class="fa-solid fa-battery-full"></i>
+                        <h4>Recuperação</h4>
+                        <h2 id="recovery-score-display">90%</h2>
+                        <div class="progress-bar"><div class="fill" style="width: 90%;"></div></div>
+                    </div>
+                </div>
+
+                <div class="glass-card countdown-card">
+                    <h4>Próximo Treino</h4>
+                    <h1 id="treino-countdown">--:--:--</h1>
+                </div>
+            </section>
+
+            <!-- 2. SONO -->
+            <section id="tab-sono" class="tab-content">
+                <div class="sleep-tracker glass-card center-text">
+                    <h2 id="sleep-timer">00:00:00</h2>
+                    <p>Status: <span id="sleep-status">Acordado</span></p>
+                    <div class="sleep-actions">
+                        <button id="btn-dormir" class="btn-primary"><i class="fa-solid fa-bed"></i> Dormir Agora</button>
+                        <button id="btn-acordar" class="btn-danger hidden"><i class="fa-solid fa-sun"></i> Acordei</button>
+                    </div>
+                </div>
+                <div class="glass-card mt-20">
+                    <h3>Qualidade do Sono</h3>
+                    <canvas id="sleepQualityChart"></canvas>
+                </div>
+            </section>
+
+            <!-- 3. TREINOS -->
+            <section id="tab-treinos" class="tab-content">
+                <div class="glass-card">
+                    <h3>Rotina de Elite</h3>
+                    <div class="training-item">
+                        <div class="t-icon"><i class="fa-solid fa-dumbbell"></i></div>
+                        <div class="t-info">
+                            <h4>Treino Físico</h4>
+                            <p>Intensidade: Alta</p>
+                        </div>
+                        <div class="t-time" id="display-treino-time">06:00</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. RECUPERAÇÃO -->
+            <section id="tab-recuperacao" class="tab-content">
+                <div class="glass-card">
+                    <h3>Checklist Pré-Sono</h3>
+                    <label class="check-item"><input type="checkbox"> <span>Banho gelado/quente (Contraste)</span></label>
+                    <label class="check-item"><input type="checkbox"> <span>Hidratação 500ml</span></label>
+                    <label class="check-item"><input type="checkbox"> <span>Sem telas por 30 min</span></label>
+                    <label class="check-item"><input type="checkbox"> <span>Alongamento leve</span></label>
+                </div>
+                <div class="glass-card mt-20">
+                    <h3>Fadiga Muscular</h3>
+                    <div class="progress-bar mt-10"><div class="fill danger" style="width: 40%;"></div></div>
+                    <p class="small-text mt-10">Risco de overtraining: Baixo</p>
+                </div>
+            </section>
+
+            <!-- 5. ESTATÍSTICAS -->
+            <section id="tab-estatisticas" class="tab-content">
+                <div class="glass-card">
+                    <h3>Evolução Semanal</h3>
+                    <canvas id="weeklyChart"></canvas>
+                </div>
+            </section>
+
+            <!-- 6. DEFINIÇÕES -->
+            <section id="tab-definicoes" class="tab-content">
+                <div class="glass-card">
+                    <h3>Configurações</h3>
+                    <button id="btn-notify" class="btn-outline mb-10"><i class="fa-solid fa-bell"></i> Ativar Notificações</button>
+                    <button id="btn-reset" class="btn-danger"><i class="fa-solid fa-trash"></i> Resetar Dados</button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- BOTTOM NAVIGATION -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" data-target="tab-inicio"><i class="fa-solid fa-house"></i><span>Início</span></a>
+            <a href="#" class="nav-item" data-target="tab-sono"><i class="fa-solid fa-moon"></i><span>Sono</span></a>
+            <a href="#" class="nav-item" data-target="tab-treinos"><i class="fa-solid fa-stopwatch"></i><span>Treinos</span></a>
+            <a href="#" class="nav-item" data-target="tab-recuperacao"><i class="fa-solid fa-heart-pulse"></i><span>Recuperação</span></a>
+            <a href="#" class="nav-item" data-target="tab-estatisticas"><i class="fa-solid fa-chart-line"></i><span>Estat</span></a>
+            <a href="#" class="nav-item" data-target="tab-definicoes"><i class="fa-solid fa-gear"></i><span>Ajustes</span></a>
+        </nav>
+
+    </div>
+
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="app.js"></script>
 </body>
-</html>
+                                                                    </html>
